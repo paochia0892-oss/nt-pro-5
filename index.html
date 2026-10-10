@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>蛋白質刮刮樂 · 第5關</title>
+<style>
+  :root{
+    --purple:#7C3AED;
+    --purple-dark:#5B21B6;
+    --purple-soft:#EDE9FE;
+    --purple-line:#C4B5FD;
+    --ink:#4C1D95;
+    --ink-body:#5B4B8A;
+    --card-bg:#FFFFFF;
+    --pink-1:#F9A8D4;
+    --pink-2:#EC4899;
+    --page-bg-1:#FDFBF0;
+    --page-bg-2:#F3ECFB;
+    --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    min-height:100vh;
+    font-family:var(--sans);
+    color:var(--ink);
+    background:
+      radial-gradient(700px 420px at 92% 6%, rgba(249,168,212,0.35), transparent 60%),
+      radial-gradient(600px 380px at 6% 0%, rgba(196,181,253,0.30), transparent 55%),
+      linear-gradient(180deg, var(--page-bg-1) 0%, var(--page-bg-2) 100%);
+    padding:36px 18px 70px;
+  }
+  .page{max-width:720px;margin:0 auto;}
+
+  .search-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:#FFFFFF;
+    border:1px solid var(--purple-line);
+    border-radius:999px;
+    padding:8px 18px;
+    font-size:0.85rem;
+    color:var(--purple-dark);
+    font-weight:600;
+    box-shadow:0 6px 16px rgba(124,58,237,0.10);
+  }
+  .hero{text-align:center;margin-bottom:26px;}
+  .hero-top{display:flex;justify-content:center;margin-bottom:18px;}
+  .hero h1{
+    font-size:1.9rem;
+    font-weight:800;
+    margin:0 0 8px;
+    background:linear-gradient(90deg, var(--purple-dark), var(--pink-2));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .hero .sub{
+    font-size:0.98rem;
+    color:var(--ink-body);
+    margin:0;
+    font-weight:600;
+  }
+
+  .welcome-card{
+    background:var(--card-bg);
+    border:2px dashed var(--purple-line);
+    border-radius:20px;
+    padding:26px 28px;
+    text-align:center;
+    margin-bottom:22px;
+    box-shadow:0 10px 26px rgba(124,58,237,0.08);
+  }
+  .welcome-card h2{
+    font-size:1.1rem;
+    color:var(--purple);
+    margin:0 0 12px;
+  }
+  .welcome-card p{
+    margin:6px 0;
+    font-size:0.95rem;
+    line-height:1.75;
+    color:var(--ink-body);
+  }
+  .task-tags{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+    margin:14px 0 8px;
+  }
+  .task-tag{
+    background:var(--purple-soft);
+    color:var(--purple-dark);
+    font-weight:700;
+    font-size:0.85rem;
+    padding:7px 14px;
+    border-radius:999px;
+  }
+
+  .lock-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:var(--card-bg);
+    border:1px solid var(--purple-line);
+    border-radius:16px;
+    padding:16px 20px;
+    margin-bottom:30px;
+    box-shadow:0 8px 20px rgba(124,58,237,0.07);
+  }
+  .lock-row .lock-label{
+    font-weight:700;
+    color:var(--ink);
+    font-size:0.95rem;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .lock-badge{
+    background:var(--purple);
+    color:#fff;
+    font-weight:700;
+    font-size:0.82rem;
+    padding:5px 14px;
+    border-radius:999px;
+  }
+  .seg-track{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+  }
+  .seg{
+    flex:1;
+    height:9px;
+    border-radius:999px;
+    background:rgba(124,58,237,0.14);
+    overflow:hidden;
+  }
+  .seg .fill{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg, var(--purple), var(--pink-2));
+    transition:width .5s ease;
+  }
+  .lock-row-inner{width:100%;}
+
+  .task-card{
+    background:var(--card-bg);
+    border-radius:20px;
+    overflow:hidden;
+    margin-bottom:24px;
+    box-shadow:0 12px 30px rgba(124,58,237,0.10);
+    border:1px solid rgba(124,58,237,0.10);
+  }
+  .task-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:18px 22px;
+  }
+  .task-head .icon-badge{
+    width:40px;height:40px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.25rem;
+    flex-shrink:0;
+  }
+  .task-head .task-title{
+    font-weight:800;
+    font-size:1.05rem;
+    color:var(--ink);
+  }
+
+  .task-body{padding:0 22px 24px;}
+  .clue-line{
+    font-size:0.88rem;
+    font-weight:700;
+    color:var(--purple-dark);
+    margin:0 0 4px;
+  }
+  .clue-desc{
+    font-size:0.9rem;
+    color:var(--ink-body);
+    line-height:1.7;
+    margin:0 0 16px;
+  }
+
+  .fact-box{
+    background:var(--purple-soft);
+    border-radius:14px;
+    padding:16px 18px;
+    margin-bottom:16px;
+  }
+  .fact-box .fact-title{
+    font-weight:700;
+    color:var(--ink);
+    margin:0 0 8px;
+    font-size:0.92rem;
+  }
+  .fact-box p, .fact-box ol{
+    margin:0;
+    font-size:0.92rem;
+    line-height:1.85;
+    color:var(--ink-body);
+  }
+  .fact-box ol{padding-left:1.2em;}
+  .blank{
+    display:inline-block;
+    min-width:64px;
+    border-bottom:2px solid var(--purple-line);
+    margin:0 2px;
+  }
+
+  .scratch-wrap{
+    position:relative;
+    border-radius:14px;
+    overflow:hidden;
+    min-height:96px;
+  }
+  .answer-reveal{
+    background:linear-gradient(135deg, #FDF2F8, #FCE7F3);
+    border:1px solid rgba(236,72,153,0.25);
+    border-radius:14px;
+    padding:18px 20px;
+    font-size:0.92rem;
+    line-height:1.85;
+    color:#831843;
+    font-weight:600;
+  }
+  canvas.scratch-layer{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:3;
+    touch-action:none;
+    cursor:grab;
+    transition:opacity .45s ease;
+  }
+  .scratch-wrap.revealed canvas.scratch-layer{
+    opacity:0;
+    pointer-events:none;
+  }
+
+  .complete-banner{
+    display:none;
+    align-items:center;
+    gap:14px;
+    background:var(--card-bg);
+    border:2px dashed var(--pink-2);
+    border-radius:18px;
+    padding:20px 24px;
+    font-size:0.95rem;
+    line-height:1.7;
+    color:var(--ink);
+    text-align:center;
+    justify-content:center;
+  }
+  .complete-banner.show{display:flex;}
+
+  .quiz-card{
+    display:none;
+    background:var(--card-bg);
+    border-radius:20px;
+    padding:26px 26px 28px;
+    margin-top:24px;
+    box-shadow:0 12px 30px rgba(124,58,237,0.10);
+    border:1px solid rgba(124,58,237,0.10);
+  }
+  .quiz-card.show{display:block;}
+  .quiz-label{
+    display:inline-block;
+    font-size:0.85rem;
+    font-weight:800;
+    color:var(--pink-2);
+    margin:0 0 10px;
+  }
+  .quiz-question{
+    font-size:1.08rem;
+    font-weight:800;
+    color:var(--purple-dark);
+    line-height:1.6;
+    margin:0 0 18px;
+  }
+  .quiz-options{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .quiz-option{
+    text-align:left;
+    background:#FFFFFF;
+    border:1.5px solid var(--purple-line);
+    border-radius:14px;
+    padding:13px 18px;
+    font-size:0.95rem;
+    font-weight:600;
+    color:var(--ink);
+    cursor:pointer;
+    font-family:var(--sans);
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+  }
+  .quiz-option:hover:not(:disabled){
+    border-color:var(--pink-2);
+    transform:translateY(-1px);
+  }
+  .quiz-option:disabled{cursor:default;}
+  .quiz-option.correct{
+    border-color:var(--purple);
+    background:var(--purple-soft);
+    color:var(--purple-dark);
+  }
+  .quiz-option.incorrect{
+    border-color:#F87171;
+    background:#FEF2F2;
+    color:#B91C1C;
+  }
+  .quiz-feedback{
+    display:none;
+    margin-top:16px;
+    font-size:0.9rem;
+    line-height:1.7;
+    padding:12px 16px;
+    border-radius:12px;
+    background:var(--purple-soft);
+    color:var(--ink);
+  }
+  .quiz-feedback.show{display:block;}
+
+  .restart-row{
+    text-align:center;
+    margin-top:26px;
+  }
+  .restart-btn{
+    display:none;
+    align-items:center;
+    gap:8px;
+    margin:0 auto;
+    background:linear-gradient(90deg, var(--purple), var(--pink-2));
+    color:#fff;
+    border:none;
+    font-family:var(--sans);
+    font-weight:800;
+    font-size:0.95rem;
+    padding:12px 30px;
+    border-radius:999px;
+    cursor:pointer;
+    box-shadow:0 10px 20px rgba(124,58,237,0.25);
+  }
+  .restart-btn.show{display:inline-flex;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hero-top">
+    <span class="search-pill">🔍 蛋白質偵探隊・第5關</span>
+  </div>
+
+  <div class="hero">
+    <h1>🎮 蛋白質刮刮樂</h1>
+    <p class="sub">吃太多或吃太少，蛋白質都會影響健康！</p>
+  </div>
+
+  <div class="welcome-card">
+    <h2>歡迎回到蛋白質偵探隊！</h2>
+    <p>上一關我們認識了蛋白質的品質、食物來源與需要量，最後一關要看蛋白質攝取過量與不足會帶來哪些健康問題。</p>
+    <p>這一關要完成四個任務，一次搞懂：</p>
+    <div class="task-tags">
+      <span class="task-tag">⚠️ 攝取過量</span>
+      <span class="task-tag">🧒 特殊族群與骨骼</span>
+      <span class="task-tag">🥣 紅孩兒症</span>
+      <span class="task-tag">🍂 消瘦症</span>
+    </div>
+    <p>直接刮開下方4張卡片的解答，完成蛋白質健康任務吧！</p>
+  </div>
+
+  <div class="lock-row">
+    <div class="lock-row-inner">
+      <div class="lock-label">
+        <span>🔒 解鎖進度</span>
+        <span class="lock-badge" id="lockBadge">已解鎖 0/4</span>
+      </div>
+      <div class="seg-track">
+        <div class="seg"><div class="fill" id="seg1"></div></div>
+        <div class="seg"><div class="fill" id="seg2"></div></div>
+        <div class="seg"><div class="fill" id="seg3"></div></div>
+        <div class="seg"><div class="fill" id="seg4"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 任務1 -->
+  <div class="task-card" data-task-id="1">
+    <div class="task-head" style="background:#E0F2FE;">
+      <span class="icon-badge" style="background:#BAE6FD;">⚠️</span>
+      <span class="task-title">任務1｜蛋白質攝取過量的影響！</span>
+    </div>
+    <div class="task-body">
+      <p class="clue-line">🔍 蛋白質偵探發現：</p>
+      <p class="clue-desc">吃進超過身體需求的蛋白質，並不會讓體內蛋白質合成變多。</p>
+      <div class="fact-box">
+        <p class="fact-title">過量胺基酸的去向：</p>
+        <p>多餘的胺基酸會在肝臟被轉換成<span class="blank"></span>或<span class="blank"></span>儲存在體內，或經分解代謝產生能量；反應後產生的尿素由<span class="blank"></span>排泄，因此高蛋白飲食會增加肝臟與腎臟的負擔。</p>
+      </div>
+      <div class="scratch-wrap">
+        <canvas class="scratch-layer"></canvas>
+        <div class="answer-reveal">
+          ① 醣類　② 脂質　③ 腎臟
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 任務2 -->
+  <div class="task-card" data-task-id="2">
+    <div class="task-head" style="background:#FFEDD5;">
+      <span class="icon-badge" style="background:#FED7AA;">🧒</span>
+      <span class="task-title">任務2｜特殊族群與骨骼健康！</span>
+    </div>
+    <div class="task-body">
+      <p class="clue-line">🔍 蛋白質偵探發現：</p>
+      <p class="clue-desc">有些人的身體條件，更不適合高蛋白飲食。</p>
+      <div class="fact-box">
+        <p class="fact-title">高蛋白飲食的風險：</p>
+        <p>腎臟機能尚未發育完全的<span class="blank"></span>或嬰兒，以及患有<span class="blank"></span>的病人，攝取過量蛋白質會造成血液中尿素升高；此外，蛋白質攝取過量還會增加尿液中<span class="blank"></span>的排泄量，增加骨質流失而導致骨質疏鬆症。</p>
+      </div>
+      <div class="scratch-wrap">
+        <canvas class="scratch-layer"></canvas>
+        <div class="answer-reveal">
+          ① 早產兒　② 腎臟疾病　③ 鈣
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 任務3 -->
+  <div class="task-card" data-task-id="3">
+    <div class="task-head" style="background:#DCFCE7;">
+      <span class="icon-badge" style="background:#BBF7D0;">🥣</span>
+      <span class="task-title">任務3｜蛋白質－熱量營養不良：紅孩兒症！</span>
+    </div>
+    <div class="task-body">
+      <p class="clue-line">🔍 蛋白質偵探發現：</p>
+      <p class="clue-desc">PEM包括紅孩兒症與消瘦症，兩者的成因並不相同。</p>
+      <div class="fact-box">
+        <p class="fact-title">紅孩兒症（Kwashiorkor）：</p>
+        <p>通常發生於1~4歲剛離乳的小孩，離乳後熱量主要來自<span class="blank"></span>食物，所以熱量攝取尚充足，但<span class="blank"></span>攝取量不足或品質不佳；因血液中<span class="blank"></span>濃度降低，會造成臉部與四肢水腫。</p>
+      </div>
+      <div class="scratch-wrap">
+        <canvas class="scratch-layer"></canvas>
+        <div class="answer-reveal">
+          ① 醣類　② 蛋白質　③ 白蛋白
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 任務4 -->
+  <div class="task-card" data-task-id="4">
+    <div class="task-head" style="background:#FCE7F3;">
+      <span class="icon-badge" style="background:#FBCFE8;">🍂</span>
+      <span class="task-title">任務4｜蛋白質－熱量營養不良：消瘦症！</span>
+    </div>
+    <div class="task-body">
+      <p class="clue-line">🔍 蛋白質偵探發現：</p>
+      <p class="clue-desc">消瘦症發生的年齡層更早，狀況也更嚴重。</p>
+      <div class="fact-box">
+        <p class="fact-title">消瘦症（marasmus）：</p>
+        <p>病因為<span class="blank"></span>和蛋白質的攝取量都不足，生長停滯的現象比紅孩兒症更嚴重，而且<span class="blank"></span>萎縮，但通常沒有<span class="blank"></span>的現象出現；治療時需同時補充足夠的熱量和高品質的蛋白質。</p>
+      </div>
+      <div class="scratch-wrap">
+        <canvas class="scratch-layer"></canvas>
+        <div class="answer-reveal">
+          ① 熱量　② 肌肉　③ 水腫
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="complete-banner" id="completeBanner">
+    🏆 恭喜完成第五關！蛋白質攝取過量與營養不良的健康問題都掌握了，蛋白質主題五關全破！
+  </div>
+
+  <div class="quiz-card" id="quizCard">
+    <span class="quiz-label">🎯 蛋白質終極挑戰</span>
+    <p class="quiz-question">素食者為什麼更需要選擇多樣化的食物？</p>
+    <div class="quiz-options" id="quizOptions">
+      <button class="quiz-option" data-correct="false">A. 植物性食物完全不含蛋白質</button>
+      <button class="quiz-option" data-correct="true">B. 植物性食物通常一種或數種必需胺基酸含量偏低</button>
+      <button class="quiz-option" data-correct="false">C. 植物性食物的消化率一定是0</button>
+      <button class="quiz-option" data-correct="false">D. 素食者不需要攝取必需胺基酸</button>
+    </div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+  </div>
+
+  <div class="restart-row">
+    <button class="restart-btn" id="restartBtn">🔄 重新開始</button>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var wraps = Array.prototype.slice.call(document.querySelectorAll('.scratch-wrap'));
+  var completed = 0;
+  var segs = [document.getElementById('seg1'), document.getElementById('seg2'), document.getElementById('seg3'), document.getElementById('seg4')];
+  var lockBadge = document.getElementById('lockBadge');
+  var banner = document.getElementById('completeBanner');
+
+  function drawFoil(ctx, w, h){
+    ctx.clearRect(0,0,w,h);
+    var grad = ctx.createLinearGradient(0,0,w,h);
+    grad.addColorStop(0, '#F9A8D4');
+    grad.addColorStop(1, '#EC4899');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0,0,w,h);
+
+    ctx.globalAlpha = 0.12;
+    ctx.fillStyle = '#FFFFFF';
+    for(var i=0;i<26;i++){
+      var rx = Math.random()*w, ry = Math.random()*h, rr = 4+Math.random()*10;
+      ctx.beginPath();
+      ctx.arc(rx, ry, rr, 0, Math.PI*2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    ctx.fillStyle = '#FFFFFF';
+    ctx.textAlign = 'center';
+    ctx.font = '700 15px "Noto Sans TC", sans-serif';
+    ctx.fillText('刮開解答', w/2, h/2 - 6);
+    ctx.font = '400 12px "Noto Sans TC", sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.85)';
+    ctx.fillText('用滑鼠或手指刮開解答', w/2, h/2 + 16);
+  }
+
+  function initWrap(wrap, index){
+    var canvas = wrap.querySelector('canvas.scratch-layer');
+    var ctx = canvas.getContext('2d');
+    var isDown = false;
+    var revealed = false;
+
+    function size(){
+      if(revealed) return;
+      var rect = wrap.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      drawFoil(ctx, canvas.width, canvas.height);
+    }
+    size();
+    window.addEventListener('resize', size);
+
+    function scratchAt(x, y){
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath();
+      ctx.arc(x, y, 22, 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    function pointerPos(e){
+      var rect = canvas.getBoundingClientRect();
+      var cx = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+      var cy = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+      return {x:cx, y:cy};
+    }
+
+    function checkRevealed(){
+      var data = ctx.getImageData(0,0,canvas.width,canvas.height).data;
+      var transparent = 0, total = data.length/4;
+      for(var i=3;i<data.length;i+=4*17){
+        if(data[i] === 0) transparent++;
+      }
+      var sampled = Math.ceil(total/17);
+      if(transparent/sampled > 0.4){
+        reveal();
+      }
+    }
+
+    function reveal(){
+      if(revealed) return;
+      revealed = true;
+      wrap.classList.add('revealed');
+      window.removeEventListener('resize', size);
+      completed++;
+      if(segs[index]) segs[index].style.width = '100%';
+      lockBadge.textContent = '已解鎖 ' + completed + '/4';
+      if(completed === wraps.length){
+        banner.classList.add('show');
+        document.getElementById('quizCard').classList.add('show');
+      }
+    }
+
+    function down(e){ isDown = true; var p = pointerPos(e); scratchAt(p.x,p.y); }
+    function move(e){ if(!isDown || revealed) return; var p = pointerPos(e); scratchAt(p.x,p.y); }
+    function up(){ if(!isDown) return; isDown = false; if(!revealed) checkRevealed(); }
+
+    canvas.addEventListener('pointerdown', down);
+    canvas.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+    canvas.addEventListener('touchstart', down, {passive:true});
+    canvas.addEventListener('touchmove', move, {passive:true});
+    canvas.addEventListener('touchend', up);
+  }
+
+  wraps.forEach(function(wrap, i){ initWrap(wrap, i); });
+
+  var quizOptions = document.querySelectorAll('.quiz-option');
+  var quizFeedback = document.getElementById('quizFeedback');
+  var restartBtn = document.getElementById('restartBtn');
+
+  quizOptions.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var isCorrect = btn.dataset.correct === 'true';
+      if(isCorrect){
+        quizOptions.forEach(function(o){
+          o.disabled = true;
+          if(o.dataset.correct === 'true'){ o.classList.add('correct'); }
+        });
+        quizFeedback.classList.add('show');
+        quizFeedback.textContent = '✅ 答對了！蛋白質的品質取決於必需胺基酸含量是否充足，植物性食物通常有一種或數種偏低，所以素食者要選擇多樣化的食物，避免必需胺基酸攝取不足。';
+        restartBtn.classList.add('show');
+      } else {
+        btn.disabled = true;
+        btn.classList.add('incorrect');
+        quizFeedback.classList.add('show');
+        quizFeedback.textContent = '🤔 再想想。';
+      }
+    });
+  });
+
+  restartBtn.addEventListener('click', function(){
+    location.reload();
+  });
+})();
+</script>
+</body>
+</html>
